@@ -35,4 +35,4 @@ jobs:
         run: Expand-Archive -Path MassBeatSaberStripper.zip -DestinationPath .
 
       - name: Strip versions (2FA Required!)
-        run: MassBeatSaberStripper.exe
+        run: ./MassBeatSaberStripper.exe
