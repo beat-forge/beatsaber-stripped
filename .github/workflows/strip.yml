@@ -31,8 +31,8 @@ jobs:
             }
           }
 
-      - name: Unzip MBSS
-        run: Expand-Archive -Path MassBeatSaberStripper.zip -DestinationPath MassBeatSaberStripper
+      - name: Unzip MBSS to current directory
+        run: Expand-Archive -Path MassBeatSaberStripper.zip -DestinationPath .
 
       - name: Strip versions (2FA Required!)
-        run: MassBeatSaberStripper\MassBeatSaberStripper.exe
+        run: MassBeatSaberStripper.exe
