@@ -1,0 +1,31 @@
+name: Update stripped versions
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download MBSS
+        run: |
+          $url = "https://api.github.com/repos/beat-forge/MassBeatSaberStripper/releases/latest"
+          $response = Invoke-RestMethod -Uri $url
+          $response.assets | ForEach-Object {
+            if ($_.name -like "*MassBeatSaberStripper*.zip") {
+              $url = $_.browser_download_url
+              Invoke-WebRequest -Uri $url -OutFile "MassBeatSaberStripper.zip"
+            }
+          }
+
+      - name: Unzip MBSS
+        run: Expand-Archive -Path MassBeatSaberStripper.zip -DestinationPath MassBeatSaberStripper
+
+      - name: Strip versions (2FA Required!)
+        run: MassBeatSaberStripper\MassBeatSaberStripper.exe
