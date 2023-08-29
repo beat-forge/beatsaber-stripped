@@ -37,10 +37,5 @@ jobs:
       - name: Unzip MBSS to current directory
         run: Expand-Archive -Path MassBeatSaberStripper.zip -DestinationPath .
 
-      - name: Check directory structure
-        run: |
-          dir
-          tree /F
-
       - name: Strip versions (2FA Required!)
         run: ./MassBeatSaberStripper.exe
