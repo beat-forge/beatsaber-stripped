@@ -38,4 +38,10 @@ jobs:
         run: Expand-Archive -Path MBSS.zip -DestinationPath .
 
       - name: Start MBSS
+        if: "!contains(github.event.head_commit.message, ':reset')"
         run: ./MBSS.exe
+
+      - name: Start MBSS and reset
+        if: "contains(github.event.head_commit.message, ':reset')"
+        run: |
+          ./MBSS.exe --reset
