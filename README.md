@@ -14,4 +14,4 @@ Please ensure that you add the version in order relative to the others, for exam
 
 ## License
 
-The code signatures in this repository are owned by Beat Games. We kindly request that you purchase Beat Saber before engaging in modding activities.
+The code signatures in this repository are owned by Beat Games, we kindly request that you purchase Beat Saber before engaging in modding activities.
