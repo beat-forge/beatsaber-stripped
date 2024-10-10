@@ -1,0 +1,43 @@
+name: Run MBSS
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 */6 * * *'
+
+jobs:
+  run-mbss:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up Git
+        run: |
+          git config --global user.name "MBSS"
+          git config --global user.email "mbss@beatforge.net"
+
+      - name: Create MBSS directory at root
+        run: mkdir C:\mbss
+        shell: pwsh
+
+      - name: Download latest MBSS release
+        run: |
+          $latestRelease = Invoke-RestMethod -Uri "https://api.github.com/repos/beat-forge/mbss/releases/latest"
+          $downloadUrl = ($latestRelease.assets | Where-Object { $_.name -eq "mbss-strip.exe" }).browser_download_url
+          Invoke-WebRequest -Uri $downloadUrl -OutFile C:\mbss\mbss-strip.exe
+        shell: pwsh
+
+      - name: Run MBSS
+        run: .\mbss-strip.exe
+        working-directory: C:\mbss
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          STEAM_USERNAME: ${{ secrets.STEAM_USERNAME }}
+          STEAM_PASSWORD: ${{ secrets.STEAM_PASSWORD }}
+          REPO_PATH: ${{ github.workspace }}
+          RUST_LOG: debug
